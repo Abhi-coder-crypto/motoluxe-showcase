@@ -1,15 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { categories } from "@/data/catalog";
 import { Logo } from "./Logo";
 
 const linkBase =
-  "font-display uppercase tracking-[0.18em] text-xs text-muted-foreground transition-colors hover:text-foreground";
+  "shrink-0 font-display uppercase tracking-[0.16em] text-[11px] text-muted-foreground transition-colors hover:text-foreground";
 
 export function SiteHeader() {
-  const [open, setOpen] = useState(false);
-
   const nav = (
     <>
       <Link
@@ -17,7 +14,6 @@ export function SiteHeader() {
         className={linkBase}
         activeProps={{ className: "text-foreground" }}
         activeOptions={{ exact: true }}
-        onClick={() => setOpen(false)}
       >
         Home
       </Link>
@@ -28,7 +24,6 @@ export function SiteHeader() {
           params={{ category: c.slug }}
           className={linkBase}
           activeProps={{ className: "text-foreground" }}
-          onClick={() => setOpen(false)}
         >
           {c.name}
         </Link>
@@ -37,7 +32,6 @@ export function SiteHeader() {
         to="/contact"
         className={linkBase}
         activeProps={{ className: "text-foreground" }}
-        onClick={() => setOpen(false)}
       >
         Contact
       </Link>
@@ -46,14 +40,16 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
-        <Link to="/" className="flex items-center">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5">
+        <Link to="/" className="flex shrink-0 items-center">
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">{nav}</nav>
+        <nav className="hidden items-center gap-6 overflow-x-auto md:flex lg:gap-8">
+          {nav}
+        </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
             aria-label="Cart"
@@ -64,22 +60,14 @@ export function SiteHeader() {
               0
             </span>
           </button>
-          <button
-            type="button"
-            aria-label="Menu"
-            onClick={() => setOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center border border-border bg-surface lg:hidden"
-          >
-            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
         </div>
       </div>
 
-      {open && (
-        <div className="flex flex-col gap-4 border-t border-border bg-surface px-5 py-5 lg:hidden">
+      <div className="border-t border-border bg-surface md:hidden">
+        <nav className="mx-auto flex max-w-7xl items-center gap-5 overflow-x-auto px-5 py-3">
           {nav}
-        </div>
-      )}
+        </nav>
+      </div>
     </header>
   );
 }
